@@ -1,0 +1,115 @@
+<div class="oj-flex oj-sm-flex-direction-column accounts-page">
+    <!-- Header -->
+    <div class="oj-flex oj-sm-justify-content-space-between oj-sm-align-items-center page-header">
+        <h2 class="oj-typography-heading-xl">🏦 My Accounts</h2>
+            <oj-button 
+      id="openNewAccountBtn"
+      class="create-account-btn"
+      on-oj-action="[[navigateToNewAccount]]" 
+      chroming="callToAction">
+      + Open New Account
+    </oj-button>
+    </div>
+
+    <!-- Account Summary Card -->
+    <div class="account-summary">
+        <h3 class="summary-header">Account Summary</h3>
+
+        <!-- Loading State -->
+        <!-- ko if: loading() -->
+        <div class="loading-indicator">
+            <oj-progress-circle value="-1"></oj-progress-circle>
+            <p>Loading your accounts...</p>
+        </div>
+        <!-- /ko -->
+
+        <!-- Empty State -->
+        <!-- ko if: !loading() && accounts().length === 0 -->
+        <div class="empty-state">
+            <h3>No Accounts Found</h3>
+            <p>You don't have any accounts yet. Create your first account to get started!</p>
+                  <oj-button on-oj-action="[[navigateToNewAccount]]" chroming="callToAction">
+        Open Your First Account
+      </oj-button>
+        </div>
+        <!-- /ko -->
+
+        <!-- Accounts Table -->
+        <!-- ko if: !loading() && accounts().length > 0 -->
+        <oj-table
+                id="accountsTable"
+                aria-label="Accounts Table"
+                data="[[accountsDP]]"
+                class="accounts-table"
+                columns='[
+        {
+          "headerText":"S.No",
+          "field":"serial"
+        },
+        {
+          "headerText":"Account Type",
+          "field":"accountType",
+          "template":"accountTypeTemplate"
+        },
+        {
+          "headerText":"Account Number",
+          "field":"accountNumber",
+          "template":"accountNumberTemplate"
+        },
+        {
+          "headerText":"Balance",
+          "field":"balance",
+          "template":"balanceTemplate"
+        },
+        {
+          "headerText":"Currency",
+          "field":"currency"
+        },
+        {
+          "headerText":"Status",
+          "field":"status",
+          "template":"statusTemplate"
+        },
+        {
+          "headerText":"Actions",
+          "field":"actions",
+          "template":"actionsTemplate"
+        }
+      ]'>
+
+            <!-- Account Type Template -->
+            <template slot="accountTypeTemplate" data-oj-as="cell">
+                <span class="account-type-badge" data-bind="text: cell.data"></span>
+            </template>
+
+            <!-- Account Number Template -->
+            <template slot="accountNumberTemplate" data-oj-as="cell">
+                <span class="account-number" data-bind="text: cell.data"></span>
+            </template>
+
+            <!-- Balance Template -->
+            <template slot="balanceTemplate" data-oj-as="cell">
+                <span class="balance-amount" data-bind="text: cell.data"></span>
+            </template>
+
+            <!-- Status Template -->
+            <template slot="statusTemplate" data-oj-as="cell">
+                <span class="status-badge" data-bind="text: cell.data"></span>
+            </template>
+
+            <!-- ✅ Actions Template (Fixed) -->
+            <template slot="actionsTemplate" data-oj-as="cell">
+                <oj-button
+                        class="delete-btn"
+                        on-oj-action="[[function() { deleteAccount(cell.row.serial) }]]">
+                    🗑
+                </oj-button>
+            </template>
+
+
+
+        </oj-table>
+        <!-- /ko -->
+    </div>
+
+</div>

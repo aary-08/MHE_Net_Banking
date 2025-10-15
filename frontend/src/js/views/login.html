@@ -1,0 +1,30 @@
+<!-- login.html -->
+<div class="oj-flex oj-sm-justify-content-center oj-sm-align-items-center gradient-background" style="height: 100vh;">
+    <div class="oj-sm-12 oj-md-6 oj-lg-4 oj-bg-neutral-0 oj-border-radius-lg oj-sm-padding-4x oj-panel-shadow-md">
+        <h2 class="register-heading">User Login</h2>
+
+        <oj-form-layout id="loginForm" max-columns="1" label-edge="top">
+
+            <oj-input-text id="username" label-hint="Username" value="{{username}}" required="true"
+                placeholder="Enter your username">
+            </oj-input-text>
+
+            <oj-input-password id="password" label-hint="Password" value="{{password}}" required="true"
+                placeholder="Enter your password">
+            </oj-input-password>
+
+
+        </oj-form-layout>
+
+        <div class="oj-flex oj-sm-margin-top oj-sm-justify-content-center">
+            <oj-button on-oj-action="[[handleLogin]]">
+                Login
+            </oj-button>
+        </div>
+
+        <div class="oj-sm-margin-top oj-sm-text-align-center">
+            <span>New user?</span>
+            <a href="#" on-click="[[goToRegester]]">Create an account</a>
+        </div>
+    </div>
+</div>

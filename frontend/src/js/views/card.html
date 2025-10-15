@@ -1,0 +1,123 @@
+<!-- card.html -->
+<div class="card-page-container">
+  <div class="card-header">
+    <div class="card-title-section">
+      <span class="oj-ux-ico-credit-card card-icon"></span>
+      <h1 class="oj-typography-heading-lg">My Cards</h1>
+    </div>
+    <div class="card-actions">
+      <oj-button class="oj-button-secondary" on-oj-action="[[goBackToDashboard]]">Back</oj-button>
+      <oj-button id="applyNewCardBtn" class="apply-card-btn" on-oj-action="[[showApplyCardDialog]]">
+        <span slot="startIcon" class="oj-ux-ico-add"></span>
+        Apply for New Card
+      </oj-button>
+    </div>
+  </div>
+
+  <div class="card-content">
+    <!-- Cards List -->
+    <div class="cards-list" data-bind="if: cards().length > 0">
+      <div class="card-grid" data-bind="foreach: cards">
+        <div class="card-item">
+          <div class="card-wrapper">
+            <div class="card-visual" data-bind="css: { 'credit-card': cardType() === 'CREDIT', 'debit-card': cardType() === 'DEBIT' }">
+              <div class="card-header">
+                <span class="card-type" data-bind="text: cardType"></span>
+                <span class="card-status" data-bind="text: status, css: { 'active': status() === 'ACTIVE', 'inactive': status() === 'INACTIVE' }"></span>
+              </div>
+              <div class="card-number">
+                <span data-bind="text: maskedCardNumber"></span>
+              </div>
+              <div class="card-footer">
+                <div class="card-holder">
+                  <span data-bind="text: cardHolderName"></span>
+                </div>
+                <div class="card-expiry">
+                  <span data-bind="text: expiryDate"></span>
+                </div>
+              </div>
+            </div>
+            <div class="card-actions">
+              <oj-button class="card-action-btn" on-oj-action="[[$parent.viewCardDetails]]" data-bind="attr: { 'data-card-id': id }">
+                View Details
+              </oj-button>
+              <oj-button class="card-action-btn secondary" on-oj-action="[[$parent.toggleCardStatus]]" data-bind="attr: { 'data-card-id': id }">
+                <span data-bind="text: status() === 'ACTIVE' ? 'Deactivate' : 'Activate'"></span>
+              </oj-button>
+              <oj-button class="card-action-btn danger" on-oj-action="[[$parent.deleteCard]]" data-bind="attr: { 'data-card-id': id }">
+                Delete
+              </oj-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- No Cards State -->
+    <div class="no-cards-state" data-bind="if: cards().length === 0">
+      <div class="no-cards-content">
+        <div class="no-cards-icon">
+          <span class="oj-ux-ico-credit-card"></span>
+        </div>
+        <h2 class="no-cards-title">No Cards Found</h2>
+        <p class="no-cards-message">You don't have any cards yet. Apply for your first card to get started.</p>
+        <oj-button class="apply-first-card-btn" on-oj-action="[[showApplyCardDialog]]">
+          <span slot="startIcon" class="oj-ux-ico-add"></span>
+          Apply for Your First Card
+        </oj-button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Apply Card Dialog -->
+  <oj-dialog id="applyCardDialog" title="Apply for New Card" on-oj-close="[[closeApplyDialog]]">
+    <div class="apply-card-form">
+      <oj-form-layout max-columns="1" label-edge="top">
+        <oj-radioset id="cardTypeSelect" label-hint="Choose Card Type" value="{{selectedCardType}}" required="true">
+          <oj-option value="CREDIT">Credit Card</oj-option>
+          <oj-option value="DEBIT">Debit Card</oj-option>
+        </oj-radioset>
+
+        <oj-input-text id="accountNumberInput" label-hint="Account Number" value="{{selectedAccountNumber}}" placeholder="Enter your account number"
+                       help.instruction="Account must exist and belong to you">
+        </oj-input-text>
+      </oj-form-layout>
+
+      <div class="dialog-actions">
+        <oj-button class="cancel-btn" on-oj-action="[[closeApplyDialog]]">Cancel</oj-button>
+        <oj-button class="apply-btn" on-oj-action="[[applyForCard]]">Apply for Card</oj-button>
+      </div>
+    </div>
+  </oj-dialog>
+
+  <!-- Card Details Dialog -->
+  <oj-dialog id="cardDetailsDialog" title="Card Details" on-oj-close="[[closeDetailsDialog]]">
+    <div class="card-details-content" data-bind="if: selectedCard">
+      <div class="detail-row">
+        <label>Card Number:</label>
+        <span data-bind="text: selectedCard().cardNumber"></span>
+      </div>
+      <div class="detail-row">
+        <label>Card Type:</label>
+        <span data-bind="text: selectedCard().cardType"></span>
+      </div>
+      <div class="detail-row">
+        <label>Card Holder:</label>
+        <span data-bind="text: selectedCard().cardHolderName"></span>
+      </div>
+      <div class="detail-row">
+        <label>Expiry Date:</label>
+        <span data-bind="text: selectedCard().expiryDate"></span>
+      </div>
+      <div class="detail-row">
+        <label>Status:</label>
+        <span class="status-badge" data-bind="text: selectedCard().status, css: { 'active': selectedCard().status() === 'ACTIVE', 'inactive': selectedCard().status() === 'INACTIVE' }"></span>
+      </div>
+      <div class="detail-row" data-bind="if: selectedCard().accountId">
+        <label>Linked Account:</label>
+        <span data-bind="text: selectedCard().accountId"></span>
+      </div>
+    </div>
+  </oj-dialog>
+</div>
+

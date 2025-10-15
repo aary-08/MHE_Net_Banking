@@ -1,0 +1,247 @@
+<div class="new-account-page">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-icon">🏦</div>
+      <div class="header-text">
+        <h2>Open New Account</h2>
+        <p>Create a new bank account in just a few simple steps</p>
+      </div>
+    </div>
+    <oj-button 
+      class="back-btn"
+      on-oj-action="[[goBackToDashboard]]" 
+      chroming="outlined">
+      ← Back to Dashboard
+    </oj-button>
+  </div>
+
+  <!-- Account Creation Form -->
+  <div class="account-creation-card">
+    <div class="card-header">
+      <h3>✨ Create Your Account</h3>
+      <p>Fill in the details below to open your new bank account</p>
+    </div>
+    
+    <!-- Loading State -->
+    <!-- ko if: creating() -->
+    <div class="loading-indicator">
+      <div class="loading-spinner"></div>
+      <h4>Creating your account...</h4>
+      <p>Please wait while we process your request</p>
+    </div>
+    <!-- /ko -->
+
+    <!-- Creation Form -->
+    <!-- ko if: !creating() -->
+    <div class="form-container">
+      <!-- Left Column - Form Fields -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon">📋</div>
+          <h4>Account Information</h4>
+        </div>
+        
+        <div class="form-field">
+          <label for="accountTypeSelect" class="field-label">
+            <span class="label-icon">🏦</span>
+            Account Type *
+          </label>
+<!-- ✅ Fixed oj-select-single syntax for Account Type -->
+<oj-select-single
+  id="accountTypeSelect"
+  value="{{newAccountType}}"
+  class="modern-select"
+  data="[[accountTypeOptions]]"
+  label-hint="Account Type">
+</oj-select-single>
+
+          <div class="field-description">Choose the type of account that best suits your needs</div>
+        </div>
+
+        <div class="form-field">
+          <label for="initialDepositInput" class="field-label">
+            <span class="label-icon">💰</span>
+            Initial Deposit (₹) *
+          </label>
+          <oj-input-number
+            id="initialDepositInput"
+            value="{{initialDeposit}}"
+            min="1000"
+            step="100"
+            class="modern-input"
+            placeholder="Enter amount">
+          </oj-input-number>
+          <div class="help-text">Minimum deposit: ₹1,000 | Maximum deposit: ₹10,00,000</div>
+        </div>
+
+        <div class="form-field">
+          <label for="currencySelect" class="field-label">
+            <span class="label-icon">💱</span>
+            Currency *
+          </label>
+<!-- ✅ Fixed oj-select-single syntax for Currency -->
+<oj-select-single
+  id="currencySelect"
+  value="{{selectedCurrency}}"
+  class="modern-select"
+  data="[[currencyOptions]]"
+  label-hint="Currency">
+</oj-select-single>
+
+          <div class="field-description">Currently only INR is supported</div>
+        </div>
+      </div>
+
+      <!-- Right Column - Account Summary -->
+      <div class="account-info-card">
+        <div class="info-header">
+          <div class="info-icon">📊</div>
+          <h4>Account Summary</h4>
+        </div>
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-icon-small">🏦</div>
+            <div class="info-content">
+              <span class="info-label">Account Type</span>
+              <span class="info-value" data-bind="text: getAccountTypeLabel(newAccountType())"></span>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon-small">💰</div>
+            <div class="info-content">
+              <span class="info-label">Initial Balance</span>
+              <span class="info-value" data-bind="text: '₹' + initialDeposit().toLocaleString('en-IN')"></span>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon-small">💱</div>
+            <div class="info-content">
+              <span class="info-label">Currency</span>
+              <span class="info-value" data-bind="text: selectedCurrency()"></span>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon-small">✅</div>
+            <div class="info-content">
+              <span class="info-label">Status</span>
+              <span class="info-value status-active">Will be Active</span>
+            </div>
+          </div>
+        </div>
+        <div class="account-benefits">
+          <h5>✨ Account Benefits</h5>
+          <div class="benefits-grid">
+            <div class="benefit-item">
+              <span class="benefit-icon">🆓</span>
+              <span>Zero maintenance charges for the first year</span>
+            </div>
+            <div class="benefit-item">
+              <span class="benefit-icon">📱</span>
+              <span>Free online banking and mobile app access</span>
+            </div>
+            <div class="benefit-item">
+              <span class="benefit-icon">🕐</span>
+              <span>24/7 customer support</span>
+            </div>
+            <div class="benefit-item">
+              <span class="benefit-icon">📈</span>
+              <span>Competitive interest rates</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Terms & Conditions Section -->
+      <div class="terms-section">
+        <div class="terms-header">
+          <div class="terms-icon">📋</div>
+          <h4>Terms & Conditions</h4>
+        </div>
+        <div class="checkbox-container">
+          <oj-checkboxset id="termsCheckbox" value="{{termsAccepted}}" required="true">
+            <oj-option value="terms">✅ I agree to the <a href="#" onclick="alert('Terms and Conditions')">Terms and Conditions</a></oj-option>
+            <oj-option value="privacy">🔒 I agree to the <a href="#" onclick="alert('Privacy Policy')">Privacy Policy</a></oj-option>
+          </oj-checkboxset>
+        </div>
+        <div class="terms-note">
+          <small>By creating an account, you acknowledge that you have read and understood our terms and conditions.</small>
+        </div>
+      </div>
+
+      <!-- Form Action Buttons -->
+      <div class="form-actions">
+        <oj-button 
+          class="cancel-btn"
+          on-oj-action="[[cancelAccountCreation]]"
+          chroming="outlined">
+          <span class="btn-icon">❌</span>
+          Cancel
+        </oj-button>
+        <oj-button 
+          class="create-btn"
+          on-oj-action="[[createAccount]]" 
+          disabled="[[!canCreateAccount()]]" 
+          chroming="callToAction">
+          <span class="btn-icon" data-bind="text: creating() ? '⏳' : '✅'"></span>
+          <oj-bind-text value="[[creating() ? 'Creating Account...' : 'Create Account']]"></oj-bind-text>
+        </oj-button>
+      </div>
+    </div>
+    <!-- /ko -->
+  </div>
+
+  <!-- Success Message -->
+  <!-- ko if: accountCreated() -->
+  <div class="success-message">
+    <div class="success-header">
+      <div class="success-icon">🎉</div>
+      <h3>Account Created Successfully!</h3>
+      <p class="success-subtitle">Your new account is now active and ready to use</p>
+    </div>
+    
+    <div class="account-details">
+      <div class="detail-card">
+        <div class="detail-icon">🏦</div>
+        <div class="detail-content">
+          <h5>Account Number</h5>
+          <p data-bind="text: createdAccountNumber()"></p>
+        </div>
+      </div>
+      
+      <div class="detail-card">
+        <div class="detail-icon">📋</div>
+        <div class="detail-content">
+          <h5>Account Type</h5>
+          <p data-bind="text: getAccountTypeLabel(createdAccountType())"></p>
+        </div>
+      </div>
+      
+      <div class="detail-card">
+        <div class="detail-icon">💰</div>
+        <div class="detail-content">
+          <h5>Initial Balance</h5>
+          <p data-bind="text: '₹' + createdAccountBalance().toLocaleString('en-IN')"></p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="success-actions">
+      <oj-button 
+        class="view-accounts-btn"
+        on-oj-action="[[goBackToDashboard]]" 
+        chroming="callToAction">
+        <span class="btn-icon">📊</span>
+        View Dashboard
+      </oj-button>
+      <oj-button 
+        class="create-another-btn"
+        on-oj-action="[[resetForm]]" 
+        chroming="outlined">
+        <span class="btn-icon">➕</span>
+        Create Another Account
+      </oj-button>
+    </div>
+  </div>
+  <!-- /ko -->
+</div>

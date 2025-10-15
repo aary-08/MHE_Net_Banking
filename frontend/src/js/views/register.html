@@ -1,0 +1,62 @@
+<!-- register.html -->
+<div class="oj-hybrid-padding oj-flex oj-sm-justify-content-center oj-sm-align-items-center" style="height:100vh;">
+  <div class="register-container">
+    <h2 class="register-heading">Register User</h2>
+
+    <oj-form-layout id="registerForm" max-columns="2" direction="row" label-edge="top">
+
+      <!-- First + Last Name in one row -->
+      <oj-input-text id="firstName" label-hint="First Name" value="{{firstName}}" required="true"
+        placeholder="Enter your first name">
+      </oj-input-text>
+
+      <oj-input-text id="lastName" label-hint="Last Name" value="{{lastName}}" required="true"
+        placeholder="Enter your last name">
+      </oj-input-text>
+
+      <!-- Username (full width row) -->
+      <oj-input-text id="username" label-hint="Username" value="{{username}}" required="true"
+        placeholder="Enter your username" class="oj-sm-12">
+      </oj-input-text>
+
+      <!-- Email (full width row) -->
+      <oj-input-text id="email" label-hint="Email" value="{{email}}" required="true" placeholder="Enter your email"
+        validators="[[emailValidator]]" class="oj-sm-12">
+      </oj-input-text>
+
+      <!-- Phone Number (full width row) -->
+      <oj-input-text id="phone" label-hint="Phone Number" value="{{phone}}" required="true"
+        placeholder="Enter your phone number" class="oj-sm-12">
+      </oj-input-text>
+
+      <!-- Address (full width row, multiline) -->
+      <oj-text-area id="address" label-hint="Address" value="{{address}}" required="true"
+        placeholder="Enter your address" class="oj-sm-12">
+      </oj-text-area>
+
+      <!-- Password + Confirm Password in one row -->
+      <oj-input-password id="password" label-hint="Password" value="{{password}}" required="true"
+        placeholder="Enter your password">
+      </oj-input-password>
+
+      <oj-input-password id="confirmPassword" label-hint="Confirm Password" value="{{confirmPassword}}" required="true"
+        placeholder="Re-enter your password">
+      </oj-input-password>
+    </oj-form-layout>
+
+    <!-- Register + Cancel Buttons -->
+    <div class="oj-flex oj-sm-margin-4x-top oj-sm-justify-content-center">
+      <oj-button on-oj-action="[[handleRegister]]" class="spaced-button">
+        Register
+      </oj-button>
+      <oj-button on-oj-action="[[goHome]]" class="spaced-button">
+        Cancel
+      </oj-button>
+    </div>
+
+    <div class="oj-sm-margin-top oj-sm-text-align-center">
+      <span>Already a user?</span>
+      <a href="#" on-click="[[goToLogin]]">Login</a>
+    </div>
+  </div>
+</div>

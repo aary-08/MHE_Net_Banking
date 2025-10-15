@@ -1,0 +1,122 @@
+
+<div class="top-nav">
+    <div class="logo">Net Banking</div>
+    <div class="user-info">
+        <div class="user-avatar" title="Logged in as:" data-bind="attr: { title: currentUser }">
+            <span class="username-text" data-bind="text: currentUser"></span>
+        </div>
+    </div>
+</div>
+
+<div class="main-container">
+    <!-- Sidebar -->
+    <nav class="side-nav">
+        
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="#" class="nav-link active" data-bind="click: navigateToOverview">🏠 Overview</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-bind="click: navigateToAccounts">🏦 Accounts</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-bind="click: navigateToCard">💳 Cards</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-bind="click: navigateToTransfer">💸 Fund Transfer</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-bind="click: navigateToTransactions">📄 Transactions</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-bind="click: navigateToProfile">👤 Profile</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Dashboard -->
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">Dashboard Overview</h1>
+            <div class="dashboard-actions">
+                <oj-button class="oj-button-primary" on-oj-action="[[performQuickAction.bind($data, 'transfer')]]">
+                    <span slot="startIcon" class="oj-fwk-icon oj-fwk-icon-arrow-right"></span>
+                    Quick Transfer
+                </oj-button>
+                <oj-button class="oj-button-secondary" on-oj-action="[[performQuickAction.bind($data, 'newAccount')]]">
+                    <span slot="startIcon" class="oj-fwk-icon oj-fwk-icon-plus"></span>
+                    New Account
+                </oj-button>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card balance-card">
+                <div class="stat-info">
+                    <h3>Total Balance</h3>
+                    <p class="stat-value" data-bind="text: totalBalance">₹1000.00</p>
+                    <div class="stat-subtitle">💰</div>
+                </div>
+                <div class="stat-icon">💰</div>
+            </div>
+
+            <div class="stat-card cards-card">
+                <div class="stat-info">
+                    <h3>Active Cards</h3>
+                    <p class="stat-value" data-bind="text: activeCards">0</p>
+                    <div class="stat-subtitle">Cards in use</div>
+                </div>
+                <div class="stat-icon">💳</div>
+            </div>
+
+            <div class="stat-card accounts-card">
+                <div class="stat-info">
+                    <h3>Total Accounts</h3>
+                    <p class="stat-value" data-bind="text: totalAccounts">1</p>
+                    <div class="stat-subtitle">Active accounts</div>
+                </div>
+                <div class="stat-icon">🏦</div>
+            </div>
+
+            <div class="stat-card activity-card">
+                <div class="stat-info">
+                    <h3>Recent Activity</h3>
+                    <p class="stat-value" data-bind="text: recentActivity">0</p>
+                    <div class="stat-subtitle">Last 5 transactions</div>
+                </div>
+                <div class="stat-icon">🔄</div>
+            </div>
+        </div>
+
+        <!-- Accounts & Actions -->
+        <div class="accounts-section">
+            <div class="section-card">
+                <h2 class="section-title">Your Accounts</h2>
+                <!-- ko foreach: accounts -->
+                <div class="account-item">
+                    <div class="account-info">
+                        <h4 data-bind="text: type">SAVINGS Account</h4>
+                        <div class="account-number" data-bind="text: number">XXXXXXXX7834</div>
+                    </div>
+                    <div class="account-details">
+                        <div class="account-balance" data-bind="text: balance">₹1000.00</div>
+                        <div class="account-status" data-bind="text: status">Active</div>
+                    </div>
+                </div>
+                <!-- /ko -->
+            </div>
+
+            <div class="section-card">
+                <h2 class="section-title">Quick Actions</h2>
+                <!-- ko foreach: quickActions -->
+                <oj-button class="quick-action" display="all" chroming="outlined"
+                           data-bind="click: function() { $parent.performQuickAction(action) }">
+                    <span data-bind="text: icon + ' ' + text"></span>
+                </oj-button>
+                <!-- /ko -->
+            </div>
+        </div>
+    </div>
+</div>
+</body>

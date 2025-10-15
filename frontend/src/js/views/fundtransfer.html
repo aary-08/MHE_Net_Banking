@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fund Transfer</title>
+  <link rel="stylesheet" href="../css/fundtransfer.css">
+</head>
+<body>
+  <div class="ft-wrap">
+    <div class="ft-header">
+      <h1>Fund Transfer</h1>
+      <button class="btn-outline" data-bind="click: goBack">Back</button>
+    </div>
+
+    <div class="ft-grid">
+      <form class="ft-card" data-bind="submit: submitTransfer">
+        <h3>Transfer Funds</h3>
+
+        <!-- Messages -->
+        <!-- ko if: errorMessage -->
+        <div class="alert error" data-bind="text: errorMessage"></div>
+        <!-- /ko -->
+        <!-- ko if: successMessage -->
+        <div class="alert success" data-bind="text: successMessage"></div>
+        <!-- /ko -->
+
+        <div class="row">
+          <div class="field">
+            <label>From Account</label>
+            <select data-bind="options: fromAccounts, optionsText: 'label', optionsValue: 'number', value: selectedFromAccount"></select>
+          </div>
+          <div class="field">
+            <label>To Account Number</label>
+            <input type="text" placeholder="Enter account number" data-bind="value: toAccountNumber" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label>Amount</label>
+            <input type="number" min="0.01" step="0.01" placeholder="0.00" data-bind="value: amount" />
+          </div>
+          <div class="field">
+            <label>Description (optional)</label>
+            <input type="text" placeholder="Reason" data-bind="value: description" />
+          </div>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn" data-bind="click: submitTransfer, disable: isSubmitting">Transfer</button>
+        </div>
+      </form>
+
+      <aside class="ft-side ft-card">
+        <h3>Transfer Guidelines</h3>
+        <ul>
+          <li>Minimum amount: ₹0.01</li>
+          <li>Processed instantly</li>
+          <li>No online transfer fees</li>
+          <li>24/7 availability</li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</body>
+</html>
+
+

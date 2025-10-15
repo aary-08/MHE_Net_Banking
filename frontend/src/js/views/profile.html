@@ -1,0 +1,181 @@
+<div class="profile-container">
+    <!-- Header with title and edit button -->
+    <div class="profile-header">
+      <h2 class="profile-title">
+        <span class="oj-ux-ico-contact"></span>
+        My Profile
+      </h2>
+      <div class="profile-actions">
+        <!-- ko if: !editing() -->
+        <button class="btn btn-primary" data-bind="click: toggleEdit">
+          <span class="oj-ux-ico-edit"></span>
+          Edit Profile
+        </button>
+        <!-- /ko -->
+        <!-- ko if: editing() -->
+        <div class="edit-actions">
+          <button class="btn btn-success" data-bind="click: saveProfile, disabled: saving">
+            <span class="oj-ux-ico-check"></span>
+            <span data-bind="text: saving() ? 'Saving...' : 'Save Changes'"></span>
+          </button>
+          <button class="btn btn-secondary" data-bind="click: toggleEdit">
+            <span class="oj-ux-ico-close"></span>
+            Cancel
+          </button>
+        </div>
+        <!-- /ko -->
+      </div>
+    </div>
+  
+    <!-- Back button -->
+    <div class="profile-back">
+      <button class="btn btn-outline" data-bind="click: goBackToDashboard">
+        <span class="oj-ux-ico-arrow-left"></span>
+        Back to Dashboard
+      </button>
+    </div>
+  
+    <!-- Error and success messages -->
+    <!-- ko if: errorMessage() -->
+    <div class="alert alert-danger" data-bind="text: errorMessage"></div>
+    <!-- /ko -->
+    <!-- ko if: successMessage() -->
+    <div class="alert alert-success" data-bind="text: successMessage"></div>
+    <!-- /ko -->
+  
+    <!-- Loading spinner -->
+    <!-- ko if: loading() -->
+    <div class="loading-container">
+      <div class="spinner"></div>
+    </div>
+    <!-- /ko -->
+  
+    <!-- Main content -->
+    <!-- ko if: !loading() -->
+    <div class="profile-content">
+      <div class="profile-main">
+        <!-- Personal Information Card -->
+        <div class="card">
+          <div class="card-header">
+            <h5>Personal Information</h5>
+          </div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Username</label>
+                <input type="text" class="form-control bg-light" data-bind="value: username" disabled>
+                <small class="form-text text-muted">Username cannot be changed</small>
+              </div>
+              <div class="form-group">
+                <label>Account Status</label>
+                <div>
+                  <span class="badge badge-success" data-bind="text: accountStatus"></span>
+                </div>
+              </div>
+            </div>
+  
+            <div class="form-row">
+              <div class="form-group">
+                <label>First Name</label>
+                <input type="text" class="form-control" 
+                       data-bind="value: formData.firstName, 
+                                 event: { input: function(data, event) { handleChange('firstName', event.target.value) } },
+                                 disabled: !editing()" required>
+              </div>
+              <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" class="form-control" 
+                       data-bind="value: formData.lastName, 
+                                 event: { input: function(data, event) { handleChange('lastName', event.target.value) } },
+                                 disabled: !editing()" required>
+              </div>
+            </div>
+  
+            <div class="form-row">
+              <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" class="form-control" 
+                       data-bind="value: formData.email, 
+                                 event: { input: function(data, event) { handleChange('email', event.target.value) } },
+                                 disabled: !editing()" required>
+              </div>
+              <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" class="form-control" 
+                       data-bind="value: formData.phoneNumber, 
+                                 event: { input: function(data, event) { handleChange('phoneNumber', event.target.value) } },
+                                 disabled: !editing()" required>
+              </div>
+            </div>
+  
+            <div class="form-group">
+              <label>Address</label>
+              <textarea class="form-control" rows="3" 
+                        data-bind="value: formData.address, 
+                                  event: { input: function(data, event) { handleChange('address', event.target.value) } },
+                                  disabled: !editing()"></textarea>
+            </div>
+  
+            <div class="form-row">
+              <div class="form-group">
+                <label>Date of Birth</label>
+                <input type="date" class="form-control" 
+                       data-bind="value: formData.dateOfBirth, 
+                                 event: { input: function(data, event) { handleChange('dateOfBirth', event.target.value) } },
+                                 disabled: !editing()">
+              </div>
+              <div class="form-group">
+                <label>Member Since</label>
+                <input type="text" class="form-control bg-light" 
+                       data-bind="value: formatDate(memberSince())" disabled>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="profile-sidebar">
+        <!-- Account Summary Card -->
+        <div class="card">
+          <div class="card-header">
+            <h6>Account Summary</h6>
+          </div>
+          <div class="card-body text-center">
+            <div class="user-avatar">
+              <span class="oj-ux-ico-contact user-icon"></span>
+            </div>
+            <h5 data-bind="text: firstName() + ' ' + lastName()"></h5>
+            <p class="text-muted" data-bind="text: '@' + username()"></p>
+            <span class="badge badge-success" data-bind="text: accountStatus"></span>
+            
+            <div class="account-info">
+              <div class="info-item">
+                <strong>Member Since:</strong><br>
+                <small data-bind="text: formatDate(memberSince())"></small>
+              </div>
+              <div class="info-item">
+                <strong>Last Login:</strong><br>
+                <small data-bind="text: formatDateTime(lastLogin())"></small>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Quick Actions Card -->
+        <div class="card">
+          <div class="card-header">
+            <h6>Quick Actions</h6>
+          </div>
+          <div class="card-body">
+            <div class="quick-actions">
+              <button class="btn btn-outline-primary btn-sm">Change Password</button>
+              <button class="btn btn-outline-info btn-sm">Download Statement</button>
+              <button class="btn btn-outline-warning btn-sm">Update Preferences</button>
+              <button class="btn btn-outline-secondary btn-sm">Contact Support</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /ko -->
+  </div>
